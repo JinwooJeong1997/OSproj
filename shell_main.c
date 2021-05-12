@@ -40,6 +40,6 @@ int main(void){
 }
 
 int checkCMD(char* target,char* cmp){
-	return (strncmp(target,cmp,sizeof(cmd))==0)? 1 : 0 ;
+	return (strncmp(target,cmp,sizeof(cmp))==0)? 1 : 0 ;
 
 }
