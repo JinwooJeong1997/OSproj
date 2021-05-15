@@ -8,7 +8,7 @@
 #define CMD_EXIT "exit"
 #define CMD_HELP "help"
 #define CMD_CREDIT "credit"
-
+int checkCMD(char* target,char* cmp);
 
 int main(void){
 	char input[MAX_CMD];
@@ -17,22 +17,19 @@ int main(void){
 	fgets(input,MAX_CMD,stdin);
 	input[strlen(input)-1]='\0';
 	fputs(input,stdout);
-	if(strncmp(input,CMD_EXIT,sizeof(CMD_EXIT))==0){
-		break;
-	}
+	if(checkCMD(input,CMD_EXIT)){break;}
 	//command compare 
-	if(strncmp(input,CMD_CREDIT,sizeof(CMD_CREDIT))==0){
-		fputs("\n",stdout);
-		fputs("======================\n",stdout);
-		fputs("===TEAM9_OS_PROJECT===\n",stdout);
-		fputs("======================\n",stdout);
+	if(checkCMD(input,CMD_CREDIT)){
+	fputs("\n",stdout);
+	fputs("======================\n",stdout);
+	fputs("===TEAM9_OS_PROJECT===\n",stdout);
+	fputs("======================\n",stdout);
 	}	
 	if(strncmp(input,CMD_HELP,sizeof(CMD_HELP))==0){
 	//return cmd function with args...
 	//somefunc(input);
 	//command() in command.c
 	}
-	fputs("\n",stdout);
 	}
 	fputs("EXIT myshell\n",stdout);
 	return 0;
