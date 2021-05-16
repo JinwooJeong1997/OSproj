@@ -72,6 +72,7 @@ int checkCMD(char* target,char* cmp){
 	char * str = malloc(sizeof(char)*strlen(target));
 	strncpy(str,target,sizeof(str));
 	char * cmd = strtok_r(str," ",&str);
+	free(str);
 	return (strncmp(cmd,cmp,sizeof(cmp))==0)? 1 : 0 ;
 
 }
