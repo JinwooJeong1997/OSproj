@@ -1,8 +1,17 @@
-myshell : main.o
-	gcc -o myshell main.o
+CC = gcc
+target = myshell
+all : $(target) 
 
-main.o : shell_main.c
-	gcc -c -o main.o shell_main.c
+
+#dirmng : dirmng.o
+#	$(CC) -o dirmng dirmng.o
+
+myshell : 
+	$(CC)  -o $(target) shell_main.c dirmng.c
+
+#dirmng.o : dirmng.c
+#	$(CC) -c -o dirmng.o dirmng.c
 
 clean :
-	rm *.o myshell
+	rm *.o $(target)
+
