@@ -41,6 +41,7 @@ int main(void){
 	//command() in command.c
 	}
 	if(checkCMD(input,CMD_DIRMNG)){
+		printf("entering dirmng!\n");
 		dirmng(input);
 	}
 	//외부 명령어 실행시키는 부분
@@ -69,9 +70,16 @@ void print_prompt(){
 }	
 
 int checkCMD(char* target,char* cmp){
-	char * str = malloc(sizeof(char)*strlen(target));
-	strncpy(str,target,sizeof(str));
+	char * str = (char*)malloc(strlen(target));
+	char * tmp = str;
+	if(str == NULL){ fprintf(stderr,"error!\n");}
+	strncpy(str,target,sizeof(target));
 	char * cmd = strtok_r(str," ",&str);
-	return (strncmp(cmd,cmp,sizeof(cmp))==0)? 1 : 0 ;
-
+	int result = 0;
+	if(strncmp(cmd,cmp,sizeof(cmp))==0){
+		result = 1;
+	}
+	str = tmp;
+	free(str);
+	return result;
 }
