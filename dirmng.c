@@ -58,7 +58,31 @@ void cmd_mv(int argc,char*argv[]){
 	unlink(argv[2]);
 	printf("result : %s -> %s\n",argv[2],argv[3]);
 }
-void cmd_cp(){
+void cmd_cp(int argc,char* argv[]){
+	FILE* src;
+	FILE* dst;
+	char ch;
+	if(argc < 4){
+		fprintf(stderr,"WRONG ARGS\n");
+		return;
+	}
+
+	if((src=fopen(argv[2],"r"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[2]);
+		return;
+	}
+	if((dst=fopen(argv[3],"w"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[3]);
+		return;
+	}
+
+	while(!feof(src)){
+		ch =(char)fgetc(src);
+		if(ch!= EOF){fputc((int)ch,dst);}
+	}
+	fclose(src);
+	fclose(dst);
+	printf("result : copy %s to %s\n",argv[2],argv[3]);
 }
 void cmd_mod(){
 }
@@ -99,6 +123,7 @@ void dirmng(char* input){
 					cmd_mv(argc,argv);
 					break;
 				case 3:
+					cmd_cp(argc,argv);
 					break;
 				case 4:
 					break;
