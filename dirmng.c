@@ -30,11 +30,78 @@ void cmd_rm(int argc,char*argv[]){
 		}
 	}
 }
-void cmd_mv(){
+//dirmng -m a b
+void cmd_mv(int argc,char*argv[]){
+	FILE* src;
+	FILE* dst;
+	char ch;
+	if(argc < 4){
+		fprintf(stderr,"WRONG ARGS\n");
+		return;
+	}
+
+	if((src=fopen(argv[2],"r"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[2]);
+		return;
+	}
+	if((dst=fopen(argv[3],"w"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[3]);
+		return;
+	}
+
+	while(!feof(src)){
+		ch =(char)fgetc(src);
+		if(ch!= EOF){fputc((int)ch,dst);}
+	}
+	fclose(src);
+	fclose(dst);
+	unlink(argv[2]);
+	printf("result : %s -> %s\n",argv[2],argv[3]);
 }
-void cmd_cp(){
+void cmd_cp(int argc,char* argv[]){
+	FILE* src;
+	FILE* dst;
+	char ch;
+	if(argc < 4){
+		fprintf(stderr,"WRONG ARGS\n");
+		return;
+	}
+
+	if((src=fopen(argv[2],"r"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[2]);
+		return;
+	}
+	if((dst=fopen(argv[3],"w"))==NULL){
+		fprintf(stderr,"%s FAILED TO OPEN\n",argv[3]);
+		return;
+	}
+
+	while(!feof(src)){
+		ch =(char)fgetc(src);
+		if(ch!= EOF){fputc((int)ch,dst);}
+	}
+	fclose(src);
+	fclose(dst);
+	printf("result : copy %s to %s\n",argv[2],argv[3]);
 }
-void cmd_mod(){
+
+//dirmng -o file 1123
+void cmd_mod(int argc,char* argv[]){
+	//FILE *src;
+	mode_t mod=0;
+	mode_t tmp=0;
+	printf("%s \n",argv[3]);
+	if(strlen(argv[3]) != 4){
+		fprintf(stderr,"wrong permission");
+		return;
+	}
+	
+
+	if(chmod(argv[2],strtol(argv[3],NULL,8))==-1){
+		fprintf(stderr,"error!\n");
+		return;
+	}else { printf("success!\n");}
+	
 }
 
 void dirmng(char* input){
@@ -70,10 +137,13 @@ void dirmng(char* input){
 					cmd_rm(argc,argv);
 					break;
 				case 2:
+					cmd_mv(argc,argv);
 					break;
 				case 3:
+					cmd_cp(argc,argv);
 					break;
 				case 4:
+					cmd_mod(argc,argv);
 					break;
 			}
 		}
@@ -82,5 +152,4 @@ void dirmng(char* input){
 		free(argv[i]);
 	}
 }
-
 
