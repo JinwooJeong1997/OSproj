@@ -84,7 +84,24 @@ void cmd_cp(int argc,char* argv[]){
 	fclose(dst);
 	printf("result : copy %s to %s\n",argv[2],argv[3]);
 }
-void cmd_mod(){
+
+//dirmng -o file 1123
+void cmd_mod(int argc,char* argv[]){
+	//FILE *src;
+	mode_t mod=0;
+	mode_t tmp=0;
+	printf("%s \n",argv[3]);
+	if(strlen(argv[3]) != 4){
+		fprintf(stderr,"wrong permission");
+		return;
+	}
+	
+
+	if(chmod(argv[2],strtol(argv[3],NULL,8))==-1){
+		fprintf(stderr,"error!\n");
+		return;
+	}else { printf("success!\n");}
+	
 }
 
 void dirmng(char* input){
@@ -126,6 +143,7 @@ void dirmng(char* input){
 					cmd_cp(argc,argv);
 					break;
 				case 4:
+					cmd_mod(argc,argv);
 					break;
 			}
 		}
@@ -134,5 +152,4 @@ void dirmng(char* input){
 		free(argv[i]);
 	}
 }
-
 
