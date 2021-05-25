@@ -1,27 +1,13 @@
 /* https://code.woboq.org/userspace/glibc/inet/ifaddrs.h.html  <ifaadrs.h> 헤더 참조 */
 /* https://pubs.opengroup.org/onlinepubs/7908799/xns/netinetin.h.html <netinet/in.h> 헤더 참조 */
-
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/ether.h>
-#include <net/if.h>
-#include <netdb.h>
-#include <ifaddrs.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "ipconfig.h"
 
 #define REQ_CNT 20
 
 void convrt_mac( const char *data, char *cvrt_str, int sz );
 /* MAC address를 보기 좋게 변환하는 함수 */
 
-int main()
+int ipconfig()
 {
   struct ifaddrs *interfaceArray = NULL, *tempIfAddr = NULL;
   void *tempAddrPtr = NULL;
