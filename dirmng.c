@@ -5,7 +5,6 @@
 //-v = mv
 //-c = cp
 //-o = chmod
-//
 #include"dirmng.h"
 
 #define MAXARG 10
@@ -30,11 +29,37 @@ void cmd_rm(int argc,char*argv[]){
 		}
 	}
 }
-void cmd_mv(){
+void cmd_mv(int argc,char*argv[]){
+	if(argc != 4){
+		fprintf(stderr,"wrong args\n");
+		return;
+	}
+	if(rename(argv[2],argv[3])){
+		fprintf(stderr,"mv %s to %s failed\n",argv[2],argv[3]);
+	}
 }
-void cmd_cp(){
-}
-void cmd_mod(){
+void cmd_cp(int argc,char*argv[]){
+	FILE * fp[2];
+	if(argc != 4){
+		fprintf(stderr,"wrong args\n");
+		return;
+	}
+	if((fp[0]= fopen(argv[2],"rb"))==NULL){
+		fprintf(stderr,"fail to open <%s> \n",argv[2]);
+		return;
+	}
+	if((fp[1] = fopen(argv[3],"wb"))==NULL){
+		fprintf(stderr,"fail to open <%s> \n",argv[3]);
+		fclose(fp[0]);
+		return;
+	}
+	int count;
+	char buffer[1024];
+	while( (count=fread(buffer,sizeof(char),1024,fp[0])) != 0){
+		fwrite(buffer,sizeof(char),count,fp[1]);
+	}
+	fclose(fp[0]);
+	fclose(fp[1]);
 }
 
 void dirmng(char* input){
@@ -42,13 +67,12 @@ void dirmng(char* input){
 	char* rest = input; 
 	int argc = 0 ;
 	char *argv[MAXARG];
-	char *op[] = {"-m","-r","-v","-c","-o"};
+	char *op[] = {"-m","-r","-v","-c"};
 	while((token=strtok_r(rest," ",&rest))){
 		if(argc == MAXARG) { 
 			printf("too many args\n");
 			break;
 		}
-		printf("%s \n",token);
 		argv[argc] = (char*)malloc(strlen(token)+1);
 		strncpy(argv[argc],token,sizeof(token));
 		if(argv[argc] == NULL){
@@ -59,21 +83,20 @@ void dirmng(char* input){
 	}
 	
 	//option check
-	printf("checking\n");
-	for(int i = 0; i < 5;i++){
+	for(int i = 0; i < 4;i++){
 		if(strncmp(argv[1],op[i],sizeof(argv[1]))==0){
 			switch(i){
-				case 0:
+				case 0:	//mk
 					cmd_mk(argc,argv);
 					break;
-				case 1:
+				case 1:	//rm
 					cmd_rm(argc,argv);
 					break;
-				case 2:
+				case 2: //mv
+					cmd_mv(argc,argv);
 					break;
-				case 3:
-					break;
-				case 4:
+				case 3: //cp
+					cmd_cp(argc,argv);
 					break;
 			}
 		}
