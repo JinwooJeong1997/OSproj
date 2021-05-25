@@ -43,7 +43,7 @@ int vi_write() {
 	scanf("%s", filename);
 	strcat(filename, ".txt");
 	FILE* fw = fopen(filename, "w");
-	printf("write\n");
+	printf("write(^ to exit)\n");
 
 	for (i = 0; i < 1000; i++) {
 		fgets(text, sizeof(text), stdin);

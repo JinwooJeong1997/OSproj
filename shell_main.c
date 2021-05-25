@@ -24,6 +24,7 @@ int main(void){
 	char input[MAX_CMD];
 	int pid;
 	int status;
+	system("clear");
 	while(1){
 		print_prompt();
 		fgets(input,MAX_CMD,stdin);
@@ -31,13 +32,16 @@ int main(void){
 		input[strlen(input)-1]='\0';
 		if(checkCMD(input,CMD_EXIT)){break;}
 		else if(checkCMD(input,CMD_CREDIT)){
-			fputs("\n",stdout);
 			fputs("======================\n",stdout);
 			fputs("===TEAM9_OS_PROJECT===\n",stdout);
 			fputs("======================\n",stdout);
 		}	
 		else if(checkCMD(input,CMD_HELP)){
-			fputs("credit : \n",stdout);
+			fputs("credit : 크레딧 출력\n",stdout);
+			fputs("dirmng [-m|-r|-v|-c] filename [filename] : 디렉토리 관리\n",stdout);
+			fputs("ipconfig  : 네트워크 환경 확인\n",stdout);
+			fputs("vi : 문서장 실행\n",stdout);
+			fputs("exit : 쉘 종료\n",stdout);
 		}
 		else if(checkCMD(input,CMD_DIRMNG)){
 			dirmng(input);
@@ -52,7 +56,6 @@ int main(void){
 			system(input);
 		}
 	//외부 명령어 실행시키는 부분
-	fputs("\n",stdout);
 	}
 	fputs("EXIT myshell\n",stdout);
 	return 0;
